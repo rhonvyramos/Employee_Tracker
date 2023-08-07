@@ -21,7 +21,7 @@ function init() {
             switch(answers.overview) {
                 case "View Departments": department.view_department(); break;
                 case "Add Department": department.add_department(); break;
-                case "Update Department": department.update_department; break;
+                case "Update Department Data": department.update_department(); break;
             };
             console.log("Prompts exhausted.");
         });
