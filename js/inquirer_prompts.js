@@ -24,45 +24,46 @@ const inquirer_prompts = [
     {
         name: "view_departments",
         message: "Here are all the Departments in your business...",
-        when: (input, answers) => {
-            return input.main_menu == "View Departments" ? console.log("Viewing Departments...") : false;
+        when: (answers) => {
+            return answers.main_menu == "View Departments";
         }
     },
     {
         name: "view_roles",
         message: "Here are all the Roles in your business...",
-        when: (input, answers) => {
-            return input.main_menu == "View Roles" ? console.log("Viewing Roles...") : false;
+        when: (answers) => {
+            return answers.main_menu == "View Roles";
         }
     },
     {
         name: "view_employees",
         message: "Here are all the Employees in your business...",
-        when: (input, answers) => {
-            return input.main_menu == "View Employees" ? console.log("Viewing Employees...") : false;
+        when: (answers) => {
+            return answers.main_menu == "View Employees";
         }
     },
 
     // adding options
     {
+        type: "input",
         name: "add_department",
-        message: "You are now adding a Department to your business...",
-        when: (input, answers) => {
-            return input.main_menu == "Add Department" ? console.log("Adding Department...") : false;
+        message: "What is the name of your new Department? -> ",
+        when: (answers) => {
+            return answers.main_menu == "Add Department";
         }
     },
     {
         name: "add_role",
         message: "You are now adding a Role to your business...",
-        when: (input, answers) => {
-            return input.main_menu == "Add Role" ? console.log("Adding Role...") : false;
+        when: (answers) => {
+            return answers.main_menu == "Add Role";
         }
     },
     {
         name: "add_employee",
         message: "You are now adding an Employee to your business...",
-        when: (input, answers) => {
-            return input.main_menu == "Add Employee" ? console.log("Adding Employee...") : false;
+        when: (answers) => {
+            return answers.main_menu == "Add Employee";
         }
     },
 
@@ -70,23 +71,32 @@ const inquirer_prompts = [
     {
         name: "update_department",
         message: "You are now updating Department Data",
-        when: (input, answers) => {
-            return input.main_menu == "Update Department Data" ? console.log("Updating Department...") : false;
+        when: (answers) => {
+            return answers.main_menu == "Update Department Data";
         }
     },
     {
         name: "update_role",
         message: "You are now updating Role data...",
-        when: (input, answers) => {
-            return input.main_menu == "Update Role Data" ? console.log("Updating Role...") : false;
+        when: (answers) => {
+            return answers.main_menu == "Update Role Data";
         }
     },
     {
         name: "update_employee",
         message: "You are now updating Employee data...",
-        when: (input, answers) => {
-            return input.main_menu == "Update Employee Data" ? console.log("Updating Employee...") : false;
+        when: (answers) => {
+            return answers.main_menu == "Update Employee Data";
         }
+    },
+];
+
+// all prompts relating to Department data
+const department_prompts = [
+    {   
+        type: "input",
+        name: "naming_department",
+        message: "What is the name of your new Department? -> "
     },
 ];
 
