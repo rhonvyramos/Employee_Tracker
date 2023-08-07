@@ -8,8 +8,8 @@ const employee = require("./employees.js");
 const inquirer_prompts = require("./inquirer_prompts.js");
 
 // init function begins program execution
-function init() {
-    inquirer
+async function init() {
+    await inquirer
         .prompt(
             {
                 type: "list",
@@ -36,6 +36,8 @@ function init() {
             };
             console.log("Prompts exhausted.");
         });
+
+       init();
 };
 
 init();
