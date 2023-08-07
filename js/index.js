@@ -1,5 +1,8 @@
 const inquirer = require("inquirer");
+
 const department = require("./departments.js");
+const role = require("./roles.js");
+const employee = require("./employees.js");
 
 // imports prompts from inquirer prompts
 const inquirer_prompts = require("./inquirer_prompts.js");
@@ -19,9 +22,17 @@ function init() {
         .then((answers) => {
             console.log(`You have chosen ${answers.overview}`);
             switch(answers.overview) {
-                case "View Departments": department.view_department(); break;
+                case "View Departments": department.view_departments(); break;
                 case "Add Department": department.add_department(); break;
                 case "Update Department Data": department.update_department(); break;
+
+                case "View Roles": role.view_roles(); break;
+                case "Add Role": role.add_role(); break;
+                case "Update Role Data": role.update_role(); break;
+
+                case "View Employees": employee.view_employees(); break;
+                case "Add Employee": employee.add_employee(); break;
+                case "Update Employee Data": employee.update_employee(); break;
             };
             console.log("Prompts exhausted.");
         });

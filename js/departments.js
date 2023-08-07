@@ -1,5 +1,5 @@
-function viewing_department() {
-    console.log("Viewing department function called");
+function viewing_departments() {
+    console.log("Viewing departments function called");
 };
 
 function adding_department() {
@@ -12,7 +12,7 @@ function updating_department() {
 };
 
 module.exports = { 
-    view_department: viewing_department,
+    view_departments: viewing_departments,
     add_department: adding_department,
     update_department: updating_department
 };
