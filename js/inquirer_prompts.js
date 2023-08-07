@@ -53,15 +53,17 @@ const inquirer_prompts = [
         }
     },
     {
+        type: "input",
         name: "add_role",
-        message: "You are now adding a Role to your business...",
+        message: "What is the name of this new Role? -> ",
         when: (answers) => {
             return answers.main_menu == "Add Role";
         }
     },
     {
+        type: "input",
         name: "add_employee",
-        message: "You are now adding an Employee to your business...",
+        message: "What is the name of the new Employee? -> ",
         when: (answers) => {
             return answers.main_menu == "Add Employee";
         }

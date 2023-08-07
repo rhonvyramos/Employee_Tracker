@@ -8,7 +8,7 @@ function init() {
     inquirer
         .prompt(inquirer_prompts)
         .then((answers) => {
-            console.log(answers.add_department);
+            console.log(answers.add_role, answers.add_employee, answers.add_department)
         });
 };
 
