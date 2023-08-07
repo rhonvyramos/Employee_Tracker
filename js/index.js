@@ -13,13 +13,16 @@ function init() {
                 name: "overview",
                 message: "Enter an Employee Tracker option below...",
                 choices: inquirer_prompts,
+                loop: false
             }
         )
         .then((answers) => {
+            console.log(`You have chosen ${answers.overview}`);
             switch(answers.overview) {
-                case "Add Department": department.add_department; break;
+                case "View Departments": department.view_department(); break;
+                case "Add Department": department.add_department(); break;
+                case "Update Department": department.update_department; break;
             };
-            console.log(answers.overview);
             console.log("Prompts exhausted.");
         });
 };
