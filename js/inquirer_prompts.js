@@ -8,7 +8,8 @@ const prompt_choices = [
     "Add Employee",
     "Update Department Data",
     "Update Role Data",
-    "Update Employee Data"
+    "Update Employee Data",
+    "Exit Employee Tracker"
 ];
 
 /*const inquirer_prompts = [
