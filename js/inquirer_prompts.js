@@ -1,5 +1,17 @@
 // inquirer_prompts.js file holds prompts for inquirer object
-const inquirer_prompts = [
+const prompt_choices = [
+    "View Departments",
+    "View Roles",
+    "View Employees",
+    "Add Department",
+    "Add Role",
+    "Add Employee",
+    "Update Department Data",
+    "Update Role Data",
+    "Update Employee Data"
+];
+
+/*const inquirer_prompts = [
 
     // main menu
     {
@@ -91,16 +103,7 @@ const inquirer_prompts = [
             return answers.main_menu == "Update Employee Data";
         }
     },
-];
-
-// all prompts relating to Department data
-const department_prompts = [
-    {   
-        type: "input",
-        name: "naming_department",
-        message: "What is the name of your new Department? -> "
-    },
-];
+];*/
 
 // exports prompts for inquirer object
-module.exports = inquirer_prompts;
+module.exports = prompt_choices;

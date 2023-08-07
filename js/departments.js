@@ -1,6 +1,5 @@
-async function adding_department() {
+function adding_department() {
     console.log("Adding department function called");
-
 };
 
-module.exports = adding_department;
+module.exports = { add_department: adding_department };
