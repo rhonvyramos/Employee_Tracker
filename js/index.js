@@ -1,5 +1,14 @@
-const inquirer = require("inquirer")
+const inquirer = require("inquirer");
 
+// imports prompts from inquirer prompts
 const inquirer_prompts = require("./inquirer_prompts.js");
 
-console.log(inquirer_prompts)
+function init() {
+    inquirer
+        .prompt(inquirer_prompts)
+        .then((answers) => {
+            console.log("All prompts exhausted.");
+        });
+};
+
+init();
