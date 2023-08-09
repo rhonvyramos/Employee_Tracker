@@ -47,11 +47,11 @@ function init() {
             console.log(`You have chosen ${answers.overview}`);
             switch(answers.overview) {
                 case "View Departments": view_table("departments"); break;
-                case "Add Department": department.add_department(); break;
+                case "Add Department": add_into_table("departments"); break;
                 case "Update Department Data": department.update_department(); break;
     
                 case "View Roles": view_table("roles"); break;
-                case "Add Role": role.add_role(); break;
+                case "Add Role": add_into_table("roles"); break;
                 case "Update Role Data": role.update_role(); break;
     
                 case "View Employees": view_table("employees"); break;
@@ -75,6 +75,7 @@ function init() {
 // init function is where program execution begins
 init();
 
+// function to view a business_db table based on choice from prompts
 function view_table(table_name) {
     db_connection
         .promise()
@@ -82,5 +83,52 @@ function view_table(table_name) {
         .then(([rows, fields]) => { console.log(rows) })
         .catch(console.log)
         .then( () => db_connection.end())
+};
+
+function add_into_table(table_name) {
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                name: "title",
+                message:"Input new title... ->",
+                validate: (input, answers) => {
+                    return input ? true : console.log("Not a valid input.")
+                },
+                when: (answers) => {
+                    return table_name == "roles";
+                }
+            },
+
+            // regex syntax used from this link
+            // https://stackoverflow.com/questions/11896599/javascript-code-to-check-special-characters
+            {
+                type: "input",
+                name: "salary",
+                message:"Input desired salary (##.##)... -> ",
+                validate: (input, answers) => {
+                    return /^\d+$/.test(input) ? true : message = "Not a valid input. Must be an appropriate currency value."
+                },
+                when: (answers) => {
+                    return table_name == "roles";
+                }
+            },
+            {
+                type: "input",
+                name: "department_id",
+                message:"Input Department ID this role falls under (#)... -> ",
+                validate: (input, answers) => {
+                    return /^\d+$/.test(input) ? true : message = "Not a valid input. Must be a singular number."
+                },
+                when: (answers) => {
+                    return table_name == "roles";
+                }
+            }
+        ])
+        .then((answers) => {
+            console.log("Added.")
+        })
+    
+    db_connection.end();
 };
 
