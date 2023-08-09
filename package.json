@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/rhonvyramos/Employee_Tracker#readme",
   "dependencies": {
-    "inquirer": "^8.2.4"
+    "dotenv": "^16.3.1",
+    "inquirer": "^8.2.4",
+    "mysql2": "^3.6.0",
+    "sequelize": "^6.32.1"
   }
 }

@@ -3,13 +3,13 @@
 -- seeds departments table
 INSERT INTO departments (department_name) 
 VALUES 
-    ("Department of Injustice"),
-    ("Department of Nuisances"),
-    ("Department of Vulgarity"),
-    ("Wretched Department"),
-    ("Unholy Department"),
-    ("Department of Carnal Wants"),
-    ("Department of Secrets");
+("Department of Injustice"),
+("Department of Nuisances"),
+("Department of Vulgarity"),
+("Wretched Department"),
+("Unholy Department"),
+("Department of Carnal Wants"),
+("Department of Secrets");
 
 -- seeds roles table
 INSERT INTO roles (title, salary, department_id)

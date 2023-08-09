@@ -1,11 +1,35 @@
+// allows use of .env file that houses sensitive sql connection data
+require("dotenv").config();
+
 const inquirer = require("inquirer");
 
-const department = require("./departments.js");
-const role = require("./roles.js");
-const employee = require("./employees.js");
+const department = require("./js/departments.js");
+const role = require("./js/roles.js");
+const employee = require("./js/employees.js");
+
+// connects to mysql server
+const sql_db = require("mysql2");
+/*const db_connection = sql_db.createConnection({
+    database: process.env.DB_NAME,
+    host: process.env.DB_USER,
+    password: process.env.DB_PASSWORD
+});*/
+
+const db_connection = sql_db.createConnection({
+    database: "business_db",
+    user: "root",
+    password: "1K[Yv>+O6(rLJ0U!%2ys%kn/,NwGd_9&{}1Ab_F-*)v?eEu8p:>SKRq3:}b?:D{[I*<zK++*|l7O}",
+    host:"localhost"
+});
+
+db_connection.connect( (err) => {
+    if(err) {
+        console.log("whats going on dude")
+    }
+});
 
 // imports prompts from inquirer prompts
-const inquirer_prompts = require("./inquirer_prompts.js");
+const inquirer_prompts = require("./js/inquirer_prompts.js");
 
 // init function begins program execution
 async function init() {
@@ -47,6 +71,7 @@ async function init() {
             init(); 
         } else { 
             console.log("Prompts exhausted."); 
+            db_connection.end();
             return; 
         };
 };
