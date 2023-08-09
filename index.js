@@ -55,7 +55,7 @@ function init() {
                 case "Update Role Data": role.update_role(); break;
     
                 case "View Employees": view_table("employees"); break;
-                case "Add Employee": employee.add_employee(); break;
+                case "Add Employee": add_into_table("employees"); break;
                 case "Update Employee Data": employee.update_employee(); break;
             };
         });
@@ -69,7 +69,7 @@ function init() {
         }
 
         // otherwise call init() again to prompt for options
-        init();*/
+        init(); */
 };
 
 // init function is where program execution begins
@@ -81,13 +81,27 @@ function view_table(table_name) {
         .promise()
         .query(`SELECT * FROM ${table_name}`)
         .then(([rows, fields]) => { console.log(rows) })
-        .catch(console.log)
-        .then( () => db_connection.end())
+        .catch(console.log).then(db_connection.end())
 };
 
+// function to add new data into a business_db table based on choice from prompts
 function add_into_table(table_name) {
     inquirer
         .prompt([
+            // adding departments
+            {
+                type: "input",
+                name: "department_name",
+                message:"Input Department name... ->",
+                validate: (input, answers) => {
+                    return input ? true : console.log("Not a valid input.")
+                },
+                when: (answers) => {
+                    return table_name == "departments";
+                }
+            },
+
+            // adding roles
             {
                 type: "input",
                 name: "title",
@@ -101,7 +115,7 @@ function add_into_table(table_name) {
             },
 
             // regex syntax used from this link
-            // https://stackoverflow.com/questions/11896599/javascript-code-to-check-special-characters
+            // https://stackoverflow.com/questions/1779013/check-if-string-contains-only-digits
             {
                 type: "input",
                 name: "salary",
@@ -123,12 +137,57 @@ function add_into_table(table_name) {
                 when: (answers) => {
                     return table_name == "roles";
                 }
-            }
+            },
+
+            // adding employee
+            {
+                type: "input",
+                name: "first_name",
+                message:"Input Employee's first name... ->",
+                validate: (input, answers) => {
+                    return input ? true : console.log("Not a valid input.")
+                },
+                when: (answers) => {
+                    return table_name == "employees";
+                }
+            },
+            {
+                type: "input",
+                name: "last_name",
+                message:"Input Employee's last name... ->",
+                validate: (input, answers) => {
+                    return input ? true : console.log("Not a valid input.")
+                },
+                when: (answers) => {
+                    return table_name == "employees";
+                }
+            },
+            {
+                type: "input",
+                name: "role_id",
+                message:"Input Employee's Role ID... -> ",
+                validate: (input, answers) => {
+                    return /^\d+$/.test(input) ? true : message = "Not a valid input. Must be an appropriate currency value."
+                },
+                when: (answers) => {
+                    return table_name == "employees";
+                }
+            },
+            {
+                type: "input",
+                name: "manager_id",
+                message:"Input Employee's Manager ID... -> ",
+                validate: (input, answers) => {
+                    return /^\d+$/.test(input) ? true : message = "Not a valid input. Must be an appropriate currency value."
+                },
+                when: (answers) => {
+                    return table_name == "employees";
+                }
+            },
         ])
         .then((answers) => {
             console.log("Added.")
+            db_connection.end();
         })
-    
-    db_connection.end();
 };
 
