@@ -1,5 +1,9 @@
+const sql = require("mysql2");
+
 function viewing_departments() {
     console.log("Viewing departments function called");
+    sql.quer
+
 };
 
 function adding_department() {
