@@ -9,6 +9,8 @@ const inquirer_prompts = require("./inquirer_prompts.js");
 
 // init function begins program execution
 async function init() {
+
+    // exit_tracker variable will hold the prompt choice string
     let exit_tracker;
 
     await inquirer
@@ -39,12 +41,15 @@ async function init() {
             };
         });
 
+        // if-else checks if the exit tracker variable does not equal Exit Employee Tracker choice
+        // calls init() function if so, otherwise ends execution
         if(exit_tracker != "Exit Employee Tracker") { 
             init(); 
         } else { 
             console.log("Prompts exhausted."); 
             return; 
-        }
+        };
 };
 
+// init function is where program execution begins
 init();
