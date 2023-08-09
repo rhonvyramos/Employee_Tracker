@@ -24,11 +24,11 @@ const db_connection = sql.createPool({
 });
 
 // init function begins program execution
-async function init() {
+function init() {
 
     // exit tracker variable will hold answers.overview string
     let exit_tracker;
-    await inquirer
+    inquirer
         .prompt(
             {
                 type: "list",
@@ -47,22 +47,27 @@ async function init() {
             exit_tracker = answers.overview;
             console.log(`You have chosen ${answers.overview}`);
             switch(answers.overview) {
-                case "View Departments": view_table("departments"); break;
+                case "View Departments": view_table("departments"); init(); break;
                 case "Add Department": add_into_table("departments"); break;
                 case "Update Department Data": department.update_department(); break;
     
-                case "View Roles": view_table("roles"); break;
+                case "View Roles": view_table("roles"); init(); break;
                 case "Add Role": add_into_table("roles"); break;
                 case "Update Role Data": role.update_role(); break;
     
-                case "View Employees": view_table("employees"); break;
+                case "View Employees": view_table("employees"); init(); break;
                 case "Add Employee": add_into_table("employees"); break;
                 case "Update Employee Data": employee.update_employee(); break;
+
+                case "Exit Employee Tracker":
+                    db_connection.end()
+                    console.log("MySQL server connection terminated from PORT: " + PORT);
+                    console.log("Employee Tracker exited.")
             };
         });
 
         // terminates connection and code if exit_tracker equals the explicit exit tracker string
-        if(exit_tracker == "Exit Employee Tracker") { 
+        /*if(exit_tracker == "Exit Employee Tracker") { 
             db_connection.end()
             console.log("MySQL server connection terminated from PORT: " + PORT);
             console.log("Employee Tracker exited.")
@@ -70,11 +75,8 @@ async function init() {
         }
 
         // otherwise call init() again to prompt for options
-        init();
+        init();*/
 };
-
-// init function is where program execution begins
-init();
 
 // function to view a business_db table based on choice from prompts
 function view_table(table_name) {
@@ -83,7 +85,6 @@ function view_table(table_name) {
         .query(`SELECT * FROM ${table_name}`)
         .then(([rows, fields]) => { console.log(rows) })
         .catch( (err) => { console.log(err) })
-        // .then(db_connection.end())
 };
 
 // function to add new data into a business_db table based on choice from prompts
@@ -188,8 +189,11 @@ function add_into_table(table_name) {
             },
         ])
         .then((answers) => {
+            console.log(answers);
             console.log("Added.")
-            db_connection.end();
         })
 };
+
+// init function is where program execution begins
+init();
 
