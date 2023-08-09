@@ -15,24 +15,20 @@ const PORT = process.env.PORT || 3306;
 // connects to mysql server
 const sql = require("mysql2");
 
-const db_connection = sql.createConnection({
+const db_connection = sql.createPool({
+    connectionLimit: 5,
     database: process.env.DB_NAME,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     host:"localhost"
 });
 
-db_connection.connect( (err) => {
-    if (err) { console.log("Connection error."); console.log(err) }
-    console.log("MySQL server connection established on PORT: " + PORT);
-});
-
 // init function begins program execution
-function init() {
+async function init() {
 
     // exit tracker variable will hold answers.overview string
     let exit_tracker;
-    inquirer
+    await inquirer
         .prompt(
             {
                 type: "list",
@@ -43,6 +39,11 @@ function init() {
             }
         )
         .then((answers) => {
+            /*db_connection.connect( (err) => {
+                if (err) { console.log("Connection error."); console.log(err) }
+                console.log("MySQL server connection established on PORT: " + PORT);
+            });*/
+
             exit_tracker = answers.overview;
             console.log(`You have chosen ${answers.overview}`);
             switch(answers.overview) {
@@ -61,15 +62,15 @@ function init() {
         });
 
         // terminates connection and code if exit_tracker equals the explicit exit tracker string
-        /*if(exit_tracker == "Exit Employee Tracker") { 
-            db_connection.end();
+        if(exit_tracker == "Exit Employee Tracker") { 
+            db_connection.end()
             console.log("MySQL server connection terminated from PORT: " + PORT);
             console.log("Employee Tracker exited.")
             return;
         }
 
         // otherwise call init() again to prompt for options
-        init(); */
+        init();
 };
 
 // init function is where program execution begins
@@ -81,7 +82,8 @@ function view_table(table_name) {
         .promise()
         .query(`SELECT * FROM ${table_name}`)
         .then(([rows, fields]) => { console.log(rows) })
-        .catch(console.log).then(db_connection.end())
+        .catch( (err) => { console.log(err) })
+        // .then(db_connection.end())
 };
 
 // function to add new data into a business_db table based on choice from prompts
