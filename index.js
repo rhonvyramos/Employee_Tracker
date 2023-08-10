@@ -42,15 +42,15 @@ function init() {
             exit_tracker = answers.overview;
             switch(answers.overview) {
                 case "View Departments": view_table("departments"); break;
-                case "Add Department": add_into_table("departments"); break;
+                case "Add Department": add_into_table("departments", "insert"); break;
                 case "Update Department Data": department.update_department(); break;
     
                 case "View Roles": view_table("roles"); break;
-                case "Add Role": add_into_table("roles"); break;
+                case "Add Role": add_into_table("roles", "insert"); break;
                 case "Update Role Data": role.update_role(); break;
     
                 case "View Employees": view_table("employees"); break;
-                case "Add Employee": add_into_table("employees"); break;
+                case "Add Employee": add_into_table("employees", "insert"); break;
                 case "Update Employee Data": employee.update_employee(); break;
 
                 case "Exit Employee Tracker":
@@ -71,7 +71,7 @@ function view_table(table_name) {
 };
 
 // function to add new data into a business_db table based on choice from prompts
-function add_into_table(table_name) {
+function add_into_table(table_name, insert_or_update) {
 
     // unassigned variables that will hold inquirer prompt answers
     // the variables that will be assigned will be based on table name that was selected in main menu
@@ -84,19 +84,20 @@ function add_into_table(table_name) {
             console.log(answers);
 
             // inserting into departments
-            if(answers.department_name) { 
+            if((answers.department_name) && (insert_or_update == "insert")) { 
                 department_name = `"${answers.department_name}"` 
-                insert_into_syntax = `INSERT INTO ${table_name} (department_name) VALUES (${department_name});`
+                console.log(department_name)
+                insert_into_syntax = `INSERT INTO ${table_name} (department_name) VALUES (${department_name});`;
             };
 
             // inserting into roles
-            if(answers.title) { 
+            if((answers.title) && (insert_or_update == "insert")) { 
                 title = `"${answers.title}"`; salary = answers.salary; department_id = answers.department_id;
                 insert_into_syntax = `INSERT INTO ${table_name} (title, salary, department_id) VALUES (${title}, ${salary}, ${department_id});`; 
             };
 
             // inserting into employees
-            if(answers.first_name) { 
+            if((answers.first_name) && (insert_or_update == "insert")) { 
                 first_name = `"${answers.first_name}"`; last_name = `"${answers.last_name}"`; role_id = answers.role_id; manager_id = answers.manager_id;
                 insert_into_syntax = `INSERT INTO ${table_name} (first_name, last_name, role_id, manager_id) VALUES (${first_name}, ${last_name}, ${role_id}, ${manager_id})`
             };
