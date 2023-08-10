@@ -48,7 +48,7 @@ function add_into_table (table_name) {
             name: "salary",
             message:"Input desired salary (##.##)... -> ",
             validate: (input, answers) => {
-                return /^\d+$/.test(input) ? true : message = "Not a valid input. Must be an appropriate currency value."
+                return /^(\$)?(([1-9]\d{0,2}(\,\d{3})*)|([1-9]\d*)|(0))(\.\d{2})?$/.test(input) ? true : message = "Not a valid input. Must be an appropriate currency value."
             },
             when: (answers) => {
                 return table_name == "roles";

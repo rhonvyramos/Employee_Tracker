@@ -88,8 +88,17 @@ function add_into_table(table_name) {
                 department_name = `"${answers.department_name}"` 
                 insert_into_syntax = `INSERT INTO ${table_name} (department_name) VALUES (${department_name});`
             };
-            if(answers.title) { console.log(`a new role exists titled ${answers.title}, paid ${answers.salary}, and is under department number ${answers.department_id}`) }
-            if(answers.first_name) { console.log(`a new employee exists named ${answers.first_name} ${answers.last_name},  who takes the role ID ${answers.role_id}, and is under manager ID ${answers.manager_id}`) }
+
+            // inserting into roles
+            if(answers.title) { 
+                title = `"${answers.title}"`; salary = answers.salary; department_id = answers.department_id;
+                insert_into_syntax = `INSERT INTO ${table_name} (title, salary, department_id) VALUES (${title}, ${salary}, ${department_id});`; 
+            };
+
+            // inserting into employees
+            if(answers.first_name) { 
+                console.log(`a new employee exists named ${answers.first_name} ${answers.last_name},  who takes the role ID ${answers.role_id}, and is under manager ID ${answers.manager_id}`) 
+            };
 
             db_connection
             .promise()
