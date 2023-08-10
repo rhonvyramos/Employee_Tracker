@@ -40,6 +40,12 @@ function init() {
         )
         .then((answers) => {
             exit_tracker = answers.overview;
+            if(exit_tracker == "Exit Employee Tracker") { 
+                db_connection.end();
+                console.log("MySQL server connection terminated from PORT: " + PORT);
+                console.log("Employee Tracker exited.");
+                return 
+            };
             switch(answers.overview) {
                 case "View Departments": view_table("departments"); break;
                 case "Add Department": add_into_table("departments", "insert"); break;
@@ -52,12 +58,8 @@ function init() {
                 case "View Employees": view_table("employees"); break;
                 case "Add Employee": add_into_table("employees", "insert"); break;
                 case "Update Employee Data": add_into_table("employees", "update"); break;
-
-                case "Exit Employee Tracker":
-                    db_connection.end()
-                    console.log("MySQL server connection terminated from PORT: " + PORT);
-                    console.log("Employee Tracker exited.")
             };
+            init();
         });
 };
 
@@ -70,13 +72,13 @@ function view_table(table_name) {
         .catch( (err) => { console.log(err); db_connection.end(); })
 };
 
-// function to add new data into a business_db table based on choice from prompts
+// function to update or add new data into a business_db table based on choice from prompts
 function add_into_table(table_name, insert_or_update) {
 
     // unassigned variables that will hold inquirer prompt answers
     // the variables that will be assigned will be based on table name that was selected in main menu
     let department_name, title, salary, department_id, first_name, last_name, role_id, manager_id;
-    let insert_into_syntax;
+    let sql_syntax;
 
     inquirer
         .prompt(inquirer_prompts.add_into_table(table_name, insert_or_update))
@@ -88,21 +90,21 @@ function add_into_table(table_name, insert_or_update) {
                 department_name = `"${answers.department_name}"` 
 
                 // inserting into departments
-                if(insert_or_update == "insert") { insert_into_syntax = `INSERT INTO ${table_name} (department_name) VALUES (${department_name});`; };
+                if(insert_or_update == "insert") { sql_syntax = `INSERT INTO ${table_name} (department_name) VALUES (${department_name});`; };
 
                 // updating a department name
-                if(insert_or_update == "update") { insert_into_syntax = `UPDATE ${table_name} SET department_name = ${department_name} WHERE id = ${answers.department_id};`; }
+                if(insert_or_update == "update") { sql_syntax = `UPDATE ${table_name} SET department_name = ${department_name} WHERE id = ${answers.department_id};`; }
             };
 
             if(answers.title) { 
                 title = `"${answers.title}"`; salary = answers.salary; department_id = answers.department_id;
 
                 // inserting into roles
-                if(insert_or_update == "insert") { insert_into_syntax = `INSERT INTO ${table_name} (title, salary, department_id) VALUES (${title}, ${salary}, ${department_id});`; };
+                if(insert_or_update == "insert") { sql_syntax = `INSERT INTO ${table_name} (title, salary, department_id) VALUES (${title}, ${salary}, ${department_id});`; };
 
                 // updating role info
                 if(insert_or_update == "update") { 
-                    insert_into_syntax =
+                    sql_syntax =
                     `UPDATE roles SET title = ${title}, salary = ${salary}, department_id = ${department_id} WHERE id = ${answers.role_id};`
                 }
             };
@@ -112,11 +114,11 @@ function add_into_table(table_name, insert_or_update) {
                 first_name = `"${answers.first_name}"`; last_name = `"${answers.last_name}"`; role_id = answers.role_id; manager_id = answers.manager_id;
 
                 if(insert_or_update == "insert") {
-                    insert_into_syntax = `INSERT INTO ${table_name} (first_name, last_name, role_id, manager_id) VALUES (${first_name}, ${last_name}, ${role_id}, ${manager_id});`;
+                    sql_syntax = `INSERT INTO ${table_name} (first_name, last_name, role_id, manager_id) VALUES (${first_name}, ${last_name}, ${role_id}, ${manager_id});`;
                 };
 
                 if(insert_or_update == "update") {
-                    insert_into_syntax =
+                    sql_syntax =
                     `UPDATE employees SET first_name = ${first_name}, last_name = ${last_name}, role_id = ${role_id}, manager_id = ${manager_id} WHERE id = ${answers.employee_id};`;
                 };
                 
@@ -124,7 +126,7 @@ function add_into_table(table_name, insert_or_update) {
 
             db_connection
             .promise()
-            .query(insert_into_syntax)
+            .query(sql_syntax)
             .then(([rows, fields]) => { console.log(rows) })
             .catch( (err) => { console.log(err); db_connection.end(); })
         });
