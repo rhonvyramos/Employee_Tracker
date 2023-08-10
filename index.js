@@ -2,9 +2,6 @@ require("dotenv").config();
 
 // allows use of .env file that houses sensitive sql connection data
 const inquirer = require("inquirer");
-const department = require("./js/departments.js");
-const role = require("./js/roles.js");
-const employee = require("./js/employees.js");
 
 // imports prompts from inquirer prompts
 const inquirer_prompts = require("./js/inquirer_prompts.js");
