@@ -24,11 +24,11 @@ const db_connection = sql.createPool({
 });
 
 // init function begins program execution
-function init() {
+async function init() {
 
     // exit tracker variable will hold answers.overview string
     let exit_tracker;
-    inquirer
+    await inquirer
         .prompt(
             {
                 type: "list",
@@ -38,7 +38,7 @@ function init() {
                 loop: false
             }
         )
-        .then((answers) => {
+        .then(async (answers) => {
             exit_tracker = answers.overview;
             if(exit_tracker == "Exit Employee Tracker") { 
                 db_connection.end();
@@ -48,7 +48,7 @@ function init() {
             };
             switch(answers.overview) {
                 case "View Departments": view_table("departments"); break;
-                case "Add Department": add_into_table("departments", "insert"); break;
+                case "Add Department": await add_into_table("departments", "insert"); break;
                 case "Update Department Data": add_into_table("departments", "update"); break;
     
                 case "View Roles": view_table("roles"); break;
@@ -59,12 +59,13 @@ function init() {
                 case "Add Employee": add_into_table("employees", "insert"); break;
                 case "Update Employee Data": add_into_table("employees", "update"); break;
             };
+
             init();
         });
 };
 
 // function to view a business_db table based on choice from prompts
-function view_table(table_name) {
+async function view_table(table_name) {
     db_connection
         .promise()
         .query(`SELECT * FROM ${table_name}`)
@@ -73,14 +74,14 @@ function view_table(table_name) {
 };
 
 // function to update or add new data into a business_db table based on choice from prompts
-function add_into_table(table_name, insert_or_update) {
+async function add_into_table(table_name, insert_or_update) {
 
     // unassigned variables that will hold inquirer prompt answers
     // the variables that will be assigned will be based on table name that was selected in main menu
     let department_name, title, salary, department_id, first_name, last_name, role_id, manager_id;
     let sql_syntax;
 
-    inquirer
+    await inquirer
         .prompt(inquirer_prompts.add_into_table(table_name, insert_or_update))
         .then((answers) => {
             console.log(answers);
@@ -130,8 +131,6 @@ function add_into_table(table_name, insert_or_update) {
             .then(([rows, fields]) => { console.log(rows) })
             .catch( (err) => { console.log(err); db_connection.end(); })
         });
-
-
 };
 
 // init function is where program execution begins
