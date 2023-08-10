@@ -97,7 +97,8 @@ function add_into_table(table_name) {
 
             // inserting into employees
             if(answers.first_name) { 
-                console.log(`a new employee exists named ${answers.first_name} ${answers.last_name},  who takes the role ID ${answers.role_id}, and is under manager ID ${answers.manager_id}`) 
+                first_name = `"${answers.first_name}"`; last_name = `"${answers.last_name}"`; role_id = answers.role_id; manager_id = answers.manager_id;
+                insert_into_syntax = `INSERT INTO ${table_name} (first_name, last_name, role_id, manager_id) VALUES (${first_name}, ${last_name}, ${role_id}, ${manager_id})`
             };
 
             db_connection

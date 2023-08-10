@@ -42,7 +42,7 @@ function add_into_table (table_name) {
         },
     
         // regex syntax used from this link
-        // https://stackoverflow.com/questions/1779013/check-if-string-contains-only-digits
+        // https://regexpattern.com/currency/
         {
             type: "input",
             name: "salary",
@@ -54,6 +54,9 @@ function add_into_table (table_name) {
                 return table_name == "roles";
             }
         },
+
+        // regex syntax used from this link
+        // https://stackoverflow.com/questions/1779013/check-if-string-contains-only-digits
         {
             type: "input",
             name: "department_id",
