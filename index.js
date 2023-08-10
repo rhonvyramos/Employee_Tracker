@@ -76,8 +76,13 @@ function add_into_table(table_name) {
         .prompt(inquirer_prompts.add_into_table(table_name))
         .then((answers) => {
             console.log(answers);
-            console.log("Added.")
+
+            if(answers.department_name) { console.log("a new department exists named: " + answers.department_name) }
+            if(answers.title) { console.log(`a new role exists titled ${answers.title}, paid ${answers.salary}, and is under department number ${answers.department_id}`) }
+            if(answers.first_name) { console.log(`a new employee exists named ${answers.first_name} ${answers.last_name},  who takes the role ID ${answers.role_id}, and is under manager ID ${answers.manager_id}`) }
         })
+
+
 };
 
 // init function is where program execution begins
