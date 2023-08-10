@@ -49,15 +49,15 @@ async function init() {
             switch(answers.overview) {
                 case "View Departments": view_table("departments"); break;
                 case "Add Department": await add_into_table("departments", "insert"); break;
-                case "Update Department Data": add_into_table("departments", "update"); break;
+                case "Update Department Data": await add_into_table("departments", "update"); break;
     
                 case "View Roles": view_table("roles"); break;
-                case "Add Role": add_into_table("roles", "insert"); break;
+                case "Add Role": await add_into_table("roles", "insert"); break;
                 case "Update Role Data": add_into_table("roles", "update"); break;
     
                 case "View Employees": view_table("employees"); break;
-                case "Add Employee": add_into_table("employees", "insert"); break;
-                case "Update Employee Data": add_into_table("employees", "update"); break;
+                case "Add Employee": await add_into_table("employees", "insert"); break;
+                case "Update Employee Data": await add_into_table("employees", "update"); break;
             };
 
             init();
