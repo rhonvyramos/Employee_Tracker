@@ -67,20 +67,31 @@ function view_table(table_name) {
         .promise()
         .query(`SELECT * FROM ${table_name}`)
         .then(([rows, fields]) => { console.log(rows) })
-        .catch( (err) => { console.log(err) })
+        .catch( (err) => { console.log(err); db_connection.end(); })
 };
 
 // function to add new data into a business_db table based on choice from prompts
 function add_into_table(table_name) {
+
+    // unassigned variables that will hold inquirer prompt answers
+    // the variables that will be assigned will be based on table name that was selected in main menu
+    let department_name, title, salary, department_id, first_name, last_name, role_id, manager_id;
+
     inquirer
         .prompt(inquirer_prompts.add_into_table(table_name))
         .then((answers) => {
             console.log(answers);
 
-            if(answers.department_name) { console.log("a new department exists named: " + answers.department_name) }
+            if(answers.department_name) { console.log("a new department exists named: " + answers.department_name); department_name = `"${answers.department_name}"` }
             if(answers.title) { console.log(`a new role exists titled ${answers.title}, paid ${answers.salary}, and is under department number ${answers.department_id}`) }
             if(answers.first_name) { console.log(`a new employee exists named ${answers.first_name} ${answers.last_name},  who takes the role ID ${answers.role_id}, and is under manager ID ${answers.manager_id}`) }
-        })
+
+            db_connection
+            .promise()
+            .query(`INSERT INTO ${table_name} (department_name) VALUES (${department_name});`)
+            .then(([rows, fields]) => { console.log(rows) })
+            .catch( (err) => { console.log(err); db_connection.end(); })
+        });
 
 
 };
