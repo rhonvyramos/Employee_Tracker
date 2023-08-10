@@ -47,7 +47,7 @@ function init() {
     
                 case "View Roles": view_table("roles"); break;
                 case "Add Role": add_into_table("roles", "insert"); break;
-                case "Update Role Data": role.update_role(); break;
+                case "Update Role Data": add_into_table("roles", "update"); break;
     
                 case "View Employees": view_table("employees"); break;
                 case "Add Employee": add_into_table("employees", "insert"); break;
@@ -83,17 +83,28 @@ function add_into_table(table_name, insert_or_update) {
         .then((answers) => {
             console.log(answers);
 
-            // inserting into departments
+
             if(answers.department_name) { 
                 department_name = `"${answers.department_name}"` 
+
+                // inserting into departments
                 if(insert_or_update == "insert") { insert_into_syntax = `INSERT INTO ${table_name} (department_name) VALUES (${department_name});`; };
+
+                // updating a department name
                 if(insert_or_update == "update") { insert_into_syntax = `UPDATE ${table_name} SET department_name = ${department_name} WHERE id = ${answers.department_id};`; }
             };
 
-            // inserting into roles
-            if((answers.title) && (insert_or_update == "insert")) { 
+            if(answers.title) { 
                 title = `"${answers.title}"`; salary = answers.salary; department_id = answers.department_id;
-                insert_into_syntax = `INSERT INTO ${table_name} (title, salary, department_id) VALUES (${title}, ${salary}, ${department_id});`; 
+
+                // inserting into roles
+                if(insert_or_update == "insert") { insert_into_syntax = `INSERT INTO ${table_name} (title, salary, department_id) VALUES (${title}, ${salary}, ${department_id});`; };
+
+                // updating role info
+                if(insert_or_update == "update") { 
+                    insert_into_syntax =
+                    `UPDATE roles SET title = ${title}, salary = ${salary}, department_id = ${department_id} WHERE id = ${answers.role_id};`
+                }
             };
 
             // inserting into employees
