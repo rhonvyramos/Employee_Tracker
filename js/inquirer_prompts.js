@@ -12,7 +12,7 @@ const prompt_choices = [
     "Exit Employee Tracker"
 ];
 
-function add_into_table (table_name) {
+function add_into_table (table_name, insert_or_update) {
     return prompts = 
     [
         // adding departments
@@ -24,10 +24,22 @@ function add_into_table (table_name) {
                 return input ? true : console.log("Not a valid input.")
             },
             when: (answers) => {
-                return table_name == "departments";
+                return (table_name == "departments");
             }
         },
-    
+
+        // updating departments
+        {
+            type: "input",
+            name: "department_id",
+            message:"Input Department ID that will change name... ->",
+            validate: (input, answers) => {
+                return input ? true : console.log("Not a valid input.")
+            },
+            when: (answers) => {
+                return (table_name == "departments") && (insert_or_update == "update");
+            }
+        },
         // adding roles
         {
             type: "input",

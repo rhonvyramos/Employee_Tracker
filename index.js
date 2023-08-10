@@ -43,7 +43,7 @@ function init() {
             switch(answers.overview) {
                 case "View Departments": view_table("departments"); break;
                 case "Add Department": add_into_table("departments", "insert"); break;
-                case "Update Department Data": department.update_department(); break;
+                case "Update Department Data": add_into_table("departments", "update"); break;
     
                 case "View Roles": view_table("roles"); break;
                 case "Add Role": add_into_table("roles", "insert"); break;
@@ -79,15 +79,15 @@ function add_into_table(table_name, insert_or_update) {
     let insert_into_syntax;
 
     inquirer
-        .prompt(inquirer_prompts.add_into_table(table_name))
+        .prompt(inquirer_prompts.add_into_table(table_name, insert_or_update))
         .then((answers) => {
             console.log(answers);
 
             // inserting into departments
-            if((answers.department_name) && (insert_or_update == "insert")) { 
+            if(answers.department_name) { 
                 department_name = `"${answers.department_name}"` 
-                console.log(department_name)
-                insert_into_syntax = `INSERT INTO ${table_name} (department_name) VALUES (${department_name});`;
+                if(insert_or_update == "insert") { insert_into_syntax = `INSERT INTO ${table_name} (department_name) VALUES (${department_name});`; };
+                if(insert_or_update == "update") { insert_into_syntax = `UPDATE ${table_name} SET department_name = ${department_name} WHERE id = ${answers.department_id};`; }
             };
 
             // inserting into roles
