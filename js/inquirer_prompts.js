@@ -139,6 +139,19 @@ function add_into_table (table_name, insert_or_update) {
                 return table_name == "employees";
             }
         },
+
+        // used when updating employee data
+        {
+            type: "input",
+            name: "employee_id",
+            message:"Input employee ID that will change data... ->",
+            validate: (input, answers) => {
+                return input ? true : console.log("Not a valid input.")
+            },
+            when: (answers) => {
+                return (table_name == "employees") && (insert_or_update == "update");
+            }
+        },
     ]
     
 };

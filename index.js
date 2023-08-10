@@ -51,7 +51,7 @@ function init() {
     
                 case "View Employees": view_table("employees"); break;
                 case "Add Employee": add_into_table("employees", "insert"); break;
-                case "Update Employee Data": employee.update_employee(); break;
+                case "Update Employee Data": add_into_table("employees", "update"); break;
 
                 case "Exit Employee Tracker":
                     db_connection.end()
@@ -108,9 +108,18 @@ function add_into_table(table_name, insert_or_update) {
             };
 
             // inserting into employees
-            if((answers.first_name) && (insert_or_update == "insert")) { 
+            if(answers.first_name) { 
                 first_name = `"${answers.first_name}"`; last_name = `"${answers.last_name}"`; role_id = answers.role_id; manager_id = answers.manager_id;
-                insert_into_syntax = `INSERT INTO ${table_name} (first_name, last_name, role_id, manager_id) VALUES (${first_name}, ${last_name}, ${role_id}, ${manager_id})`
+
+                if(insert_or_update == "insert") {
+                    insert_into_syntax = `INSERT INTO ${table_name} (first_name, last_name, role_id, manager_id) VALUES (${first_name}, ${last_name}, ${role_id}, ${manager_id});`;
+                };
+
+                if(insert_or_update == "update") {
+                    insert_into_syntax =
+                    `UPDATE employees SET first_name = ${first_name}, last_name = ${last_name}, role_id = ${role_id}, manager_id = ${manager_id} WHERE id = ${answers.employee_id};`;
+                };
+                
             };
 
             db_connection
